@@ -1,0 +1,41 @@
+.constainer{
+    background-color: transparent;
+}
+
+.form{
+    display: flex;
+    align-items: start;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    padding: 5px 0 ;
+}
+
+.input{
+    flex: 1;
+  background: transparent; 
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 10px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.btn {
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 8%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 24px;
+   color: gray;
+}
+
+.btn:hover {
+   background: rgb(206, 199, 199);
+}

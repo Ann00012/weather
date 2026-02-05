@@ -1,66 +1,89 @@
+"use client";
+import { fetchData, getCity } from "@/services/WeatherServices";
+import { useState } from "react";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import WeatherItem from "@/components/WeatherItem/WeatherItem";
+import SearchBox from "@/components/SearchBox/SearchBox";
+import toast,{ Toaster } from "react-hot-toast";
+import css from "./page.module.css";
+import Loader from "./loading";
 import Image from "next/image";
-import styles from "./page.module.css";
 
 export default function Home() {
+  const [city, setCity] = useState("London");
+  const { data, isLoading, isError, error, isSuccess } = useQuery({
+    queryKey: ["weather", city],
+    queryFn: async () => {
+      const coords = await getCity(city);
+      if (!coords) {
+        toast.error("Can not find city");
+        throw new Error("Can not find city")
+      };
+      return await fetchData(coords.lat, coords.lon);
+    },
+    enabled: !!city,
+    placeholderData: keepPreviousData,
+  });
+
+  const getBackground = (weatherMain: string) => {
+    const bgs: Record<string, string> = {
+      Clear: "/clear.jpg",
+      Clouds: "/clouds.jpeg",
+      Rain: "/rain.jpg",
+      Snow: "/snow.jpg",
+      Sunny: "/sunny.jpg",
+      Thunderstorm: "/thunder.jpg",
+      Drizzle: "/drizzle.jpg",
+      Mist: "/mist.jpg",
+      Fog: "/mist.jpg",
+      Dust: "/dust.jpg",
+    };
+    return bgs[weatherMain] || "/default.jpg";
+  };
+
+  const currentBg =
+    isSuccess && data ? getBackground(data.weather[0].main) : "/default-bg.jpg";
+
+  const handleSearch = (newQuery: string) => {
+    setCity(newQuery);
+  };
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div
+      className={css.weatherPage}
+      style={{ backgroundImage: `url(${currentBg})` }}
+    >
+      <Toaster position="top-right" reverseOrder={false} />
+      <div className={css.mainContent}>
+        <div className={css.logo}>WW⚡</div>
+        {isSuccess && data && (
+          <div className={css.mainInfo}>
+            <span className={css.temp}>{Math.round(data.main.temp)}°</span>
+            <div className={css.locationBox}>
+              <span className={css.cityName}>{city}</span>
+            </div>
+            <div className={css.weatherIcon}>
+              {data.weather.map((item) => (
+                <Image
+                  key={item.id}
+                  src={`https://openweathermap.org/img/wn/${item.icon}@2x.png`}
+                  alt={item.description}
+                  width={100}
+                  height={100}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <aside className={css.sidePanel}>
+        <SearchBox onSearch={handleSearch} />
+        <main>
+          {isLoading && <Loader />}
+          {isError && <p>Error: {(error as Error).message}</p>}
+          {isSuccess && data && <h2>{data.name}</h2>}
+          {isSuccess && data && <WeatherItem data={data} />}
+        </main>
+      </aside>
     </div>
   );
 }

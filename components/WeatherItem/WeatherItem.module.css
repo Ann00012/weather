@@ -1,0 +1,45 @@
+.container {
+  color: white;
+  width: 100%;
+}
+
+.weatherDescription {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.row {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.label {
+  color: rgba(255, 255, 255, 0.7); 
+  font-size: 18px;
+}
+
+.value {
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.divider {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  margin-top: 40px;
+  width: 100%;
+}
