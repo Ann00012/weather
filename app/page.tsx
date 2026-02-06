@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   const currentBg =
-    isSuccess && data ? getBackground(data.weather[0].main) : "/default-bg.jpg";
+    isSuccess && data ? getBackground(data.weather[0].main) : "/default.avif";
 
   const handleSearch = (newQuery: string) => {
     setCity(newQuery);
