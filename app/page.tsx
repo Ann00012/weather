@@ -27,18 +27,18 @@ export default function Home() {
 
   const getBackground = (weatherMain: string) => {
     const bgs: Record<string, string> = {
-      Clear: "/clear.jpg",
-      Clouds: "/clouds.jpeg",
-      Rain: "/rain.jpg",
-      Snow: "/snow.jpg",
-      Sunny: "/sunny.jpg",
-      Thunderstorm: "/thunder.jpg",
-      Drizzle: "/drizzle.jpg",
-      Mist: "/mist.jpg",
-      Fog: "/mist.jpg",
-      Dust: "/dust.jpg",
+      Clear: "/clear.avif",
+      Clouds: "/clouds.avif",
+      Rain: "/rain.avif",
+      Snow: "/snow.avif",
+      Sunny: "/sunny.avif",
+      Thunderstorm: "/thunder.avif",
+      Drizzle: "/drizzle.avif",
+      Mist: "/mist.avif",
+      Fog: "/mist.avif",
+      Dust: "/dust.avif",
     };
-    return bgs[weatherMain] || "/default.jpg";
+    return bgs[weatherMain] || "/default.avif";
   };
 
   const currentBg =

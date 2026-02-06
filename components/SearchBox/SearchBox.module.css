@@ -2,14 +2,16 @@
     background-color: transparent;
 }
 
-.form{
+.form {
     display: flex;
-    align-items: start;
+    flex-wrap: wrap; 
+    align-items: center;
     border-top: 2px solid white;
     border-bottom: 2px solid white;
-    padding: 5px 0 ;
-}
-
+    padding: 5px 0;
+    gap: 10px; 
+    justify-content: center;
+}   
 .input{
     flex: 1;
   background: transparent; 
