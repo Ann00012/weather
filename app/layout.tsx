@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Weather",
   description: "Weather",
+  icons: {
+    icon: '/favicon.png'
+  },
   openGraph: {
     title: "Weather",
     description: "Weather",
